@@ -9,9 +9,25 @@ var todoNextId = 1;
 
 app.use(bodyParser.json());
 
+app.get('/', function (req, res) {
+   res.send('Todo API Root'); 
+});
+
 //  GET request /todos
 app.get('/todos', function (req, res) {
-   res.json(todos); 
+    var queryParams = req.query;
+    var filteredTodos = todos;
+    
+    // if has property && completed === "true"
+    //   _.where
+    console.log(queryParams);
+    if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'true') {
+        filteredTodos = _.where(filteredTodos, {completed: true});
+    } else if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'false') {
+        console.log('else if statement');
+        filteredTodos = _.where(filteredTodos, {completed: false});
+    }   
+    res.json(filteredTodos); 
 });
 
 //  GET /todos/:id (of a specific todo)
@@ -41,10 +57,6 @@ app.post('/todos', function (req, res) {
     todos.push(body);
     
     res.json(body);
-});
-
-app.get('/', function (req, res) {
-   res.send('Todo API Root'); 
 });
 
 // DELETE /todos:id 
