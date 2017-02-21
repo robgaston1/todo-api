@@ -31,24 +31,6 @@ app.get('/todos', function(req, res) {
         res.status(500).send();
     });
 
-
-    // var filteredTodos = todos;
-    // if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'true') {
-    //     filteredTodos = _.where(filteredTodos, {
-    //         completed: true
-    //     });
-    // } else if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'false') {
-    //     console.log('else if statement');
-    //     filteredTodos = _.where(filteredTodos, {
-    //         completed: false
-    //     });
-    // }
-    // if (queryParams.hasOwnProperty('q') && _.isString(queryParams.q) && queryParams.q.trim().length > 0) {
-    //     filteredTodos = _.filter(filteredTodos, function(item) {
-    //         return (item.description.toLocaleLowerCase().indexOf(queryParams.q.toLowerCase()) > -1);
-    //     });
-    // }
-    // res.json(filteredTodos);
 });
 //  GET /todos/:id (of a specific todo)
 app.get('/todos/:id', function(req, res) {
@@ -62,15 +44,6 @@ app.get('/todos/:id', function(req, res) {
     }, function(e) {
         res.status(500).send();
     });
-    //    var toDoItem = _.findWhere(todos, {
-    //        id: todoID
-    //    });
-    //    if (toDoItem) {
-    //        res.json(toDoItem);
-    //    }
-    //    else {
-    //        res.status('404').send();
-    //    }
 });
 // POST /todos
 app.post('/todos', function(req, res) {
