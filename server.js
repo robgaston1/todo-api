@@ -6,6 +6,7 @@ var app = express();
 var PORT = process.env.PORT || 3000;
 var todos = [];
 var todoNextId = 1;
+var bcrypt = require('bcryptjs');
 app.use(bodyParser.json());
 app.get('/', function(req, res) {
     res.send('Todo API Root');
@@ -104,7 +105,6 @@ app.put('/todos/:id', function(req, res) {
 
 app.post('/users', function(req, res) {
     var body = _.pick(req.body, 'email', 'password');
-    console.log(body.email);
     db.user.create(body).then(function(user) {
         res.json(user.toPublicJSON());
     }, function(e) {
@@ -112,7 +112,19 @@ app.post('/users', function(req, res) {
     });
 });
 
-db.sequelize.sync().then(function() {
+app.post('/users/login', function(req, res) {
+    var body = _.pick(req.body, 'email', 'password');
+
+    db.user.authenticate(body).then(function(user) {
+        res.json(user.toPublicJSON());
+    }, function () {
+        res.status(401).send();
+    })
+
+   
+});
+
+db.sequelize.sync({force: true}).then(function() {
     app.listen(PORT, function() {
         console.log('Express listening on  port:' + PORT);
     });
